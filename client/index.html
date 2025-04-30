@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css" />
+    <title>webrtc test</title>
+  </head>
+  <body>
+    <h1>WebRTC Test</h1>
+    <input type="text" placeholder="enter room id" id="roomId" />
+    <button id="joinButton">Join</button>
+
+    <div id="videoContainer">
+      <div id="localVideoContainer">
+        <h2>My Video</h2>
+        <video id="localVideo" autoplay playsinline width="320"></video>
+      </div>
+
+      <div id="remoteVideoContainer">
+        <h2>Remote Video</h2>
+        <video id="remoteVideo" autoplay playsinline width="320"></video>
+      </div>
+    </div>
+  </body>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="client.js"></script>
+</html>
