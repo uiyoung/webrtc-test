@@ -76,7 +76,7 @@ socket.on('welcome', async () => {
   socket.emit('offer', { roomId, offer });
 });
 
-//
+// 상대방이 offer를 수신한 경우, answer를 생성
 socket.on('offer', async (offer) => {
   console.log('receive offer');
 
