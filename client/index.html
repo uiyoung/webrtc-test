@@ -4,21 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://unpkg.com/mvp.css" />
+    <link rel="stylesheet" href="./style.css" />
     <title>webrtc test</title>
   </head>
   <body>
     <h1>WebRTC Test</h1>
-    <input type="text" placeholder="enter room id" id="roomId" />
-    <button id="joinButton">Join</button>
-
+    <button id="readyButton">ready</button>
+    <input type="text" placeholder="room id" id="roomId" />
+    <button id="joinButton" disabled>join</button>
+    <button id="leaveButton" class="red-button" disabled>leave</button>
+    <div id="roomInfo"></div>
+    <hr />
+    
     <div id="videoContainer">
       <div id="localVideoContainer">
-        <h2>My Video</h2>
+        <h3>My Video</h3>
         <video id="localVideo" autoplay playsinline width="320"></video>
+        <button id="mediaToggleButton">off</button>
       </div>
 
       <div id="remoteVideoContainer">
-        <h2>Remote Video</h2>
+        <h3>Remote Video</h3>
         <video id="remoteVideo" autoplay playsinline width="320"></video>
       </div>
     </div>

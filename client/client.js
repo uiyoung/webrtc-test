@@ -6,8 +6,12 @@ let peerConnection;
 
 const localVideo = document.querySelector('#localVideo');
 const remoteVideo = document.querySelector('#remoteVideo');
-const roomInput = document.querySelector('#roomId');
+const roomIdInput = document.querySelector('#roomId');
+const readyButton = document.querySelector('#readyButton');
+const mediaToggleButton = document.querySelector('#mediaToggleButton');
 const joinButton = document.querySelector('#joinButton');
+const leaveButton = document.querySelector('#leaveButton');
+const roomInfoText = document.querySelector('#roomInfo');
 
 async function getMedia() {
   try {
@@ -20,6 +24,20 @@ async function getMedia() {
     console.error('미디어 장치 접근 실패', error);
     throw error;
   }
+}
+
+function enableMedia() {
+  localStream?.getTracks().forEach((track) => {
+    track.enabled = true;
+    console.log(`${track.kind} ${track.id} enabled`);
+  });
+}
+
+function disableMedia() {
+  localStream?.getTracks().forEach((track) => {
+    track.enabled = false;
+    console.log(`${track.kind} ${track.id} disabled`);
+  });
 }
 
 // PeerConnection을 생성하고 ICE candidate를 처리하는 함수
@@ -54,23 +72,47 @@ function createPeerConnection() {
   });
 }
 
-async function initCall() {
-  await getMedia();
+function initCall() {
   createPeerConnection();
+  socket.emit('join', roomId);
 }
 
-joinButton.addEventListener('click', async () => {
-  roomId = roomInput.value.trim();
+readyButton.addEventListener('click', async () => {
+  try {
+    await getMedia();
+    readyButton.disabled = true;
+    joinButton.disabled = false;
+    document.querySelector('#videoContainer').style.display = 'flex';
+  } catch (error) {
+    alert('카메라나 마이크를 사용할 수 없습니다. 브라우저 설정을 확인해주세요.');
+  }
+});
+
+joinButton.addEventListener('click', () => {
+  roomId = roomIdInput.value.trim();
   if (!roomId) {
-    alert('please enter a room ID');
+    alert('please enter a room id');
+    roomIdInput.focus();
     return;
   }
 
-  try {
-    await initCall();
-    socket.emit('join', roomId);
-  } catch (err) {
-    alert('카메라나 마이크를 사용할 수 없습니다. 브라우저 설정을 확인해주세요.');
+  joinButton.disabled = true;
+  roomIdInput.disabled = true;
+  roomInfoText.textContent = `room ${roomId} joined`;
+
+  initCall();
+});
+
+mediaToggleButton.addEventListener('click', async () => {
+  mediaToggleButton.classList.toggle('on');
+  const isCurrentlyOn = mediaToggleButton.classList.contains('on');
+
+  if (isCurrentlyOn) {
+    disableMedia();
+    mediaToggleButton.textContent = 'on';
+  } else {
+    enableMedia();
+    mediaToggleButton.textContent = 'off';
   }
 });
 

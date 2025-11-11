@@ -1,0 +1,28 @@
+.red-button {
+  background-color: hsl(0, 100%, 50%);
+  color: white;
+  border-color: #ff0000;
+}
+
+.on {
+  background-color: green;
+  border-color: green;
+}
+
+#roomId {
+  width: 10rem;
+}
+
+#videoContainer {
+  display: none;
+  gap: 2rem;
+}
+
+#videoContainer div {
+  display: flex;
+  flex-direction: column;
+}
+
+hr {
+  margin: 1rem 0;
+}
